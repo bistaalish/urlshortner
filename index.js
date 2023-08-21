@@ -13,7 +13,6 @@ mongoose.connect(uri,{
   useUnifiedTopology: true,
   serverSelectionTImeoutMS: 5000
 })
-
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
