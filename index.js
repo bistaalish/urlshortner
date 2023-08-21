@@ -23,6 +23,7 @@ const logMiddleware = (req, res, next) => {
   // Create a log string containing request method, path, and IP address
   const logString = `${req.method} ${req.path} - ${req.ip}`;
   console.log(logString);
+  console.log(req.body);
   next(); // Move to the next middleware or route handler
 };
 
