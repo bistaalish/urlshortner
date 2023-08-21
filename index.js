@@ -47,7 +47,10 @@ app.get('/api/hello', function(req, res) {
 });
 
 app.post("/api/shorturl",async (req,res)=>{
-  res.json(req.body)
+  // res.json(req.body)
+  const url = req.body.url
+  const urlCode = shortId.generate();
+  // check if the url is valid or not
 })
 
 app.listen(port, function() {
