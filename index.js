@@ -15,6 +15,11 @@ mongoose.connect(uri,{
   useUnifiedTopology: true,
   serverSelectionTImeoutMS: 5000
 })
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+  console.log("MongoDB database connection established successfully");
+})
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
@@ -58,6 +63,24 @@ app.post("/api/shorturl",async (req,res)=>{
     })
   }
 })
+
+
+app.get('/api/shorturl/:short_url?', async function (req, res) {
+  try {
+    const urlParams = await URL.findOne({
+      short_url: req.params.short_url
+    })
+    if (urlParams) {
+      return res.redirect(urlParams.original_url)
+    } else {
+      return res.status(404).json('No URL found')
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json('Server error')
+  }
+})
+
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
