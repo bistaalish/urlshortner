@@ -6,4 +6,4 @@ const urlSchema = new Schema({
     short_url: String
 })
 
-module.exports = urlSchema;
+module.exports = mongoose.model("URL",urlSchema);
