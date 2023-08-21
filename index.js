@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-
+const URLModel = require("./models/urlModel")
 // DB set up
 const uri = process.env.MONGO_URI
 // Mongoose connect to database
