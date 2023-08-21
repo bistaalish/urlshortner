@@ -5,7 +5,8 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const URLModel = require("./models/urlModel")
-
+var validUrl = require('valid-url');
+const shortId = require("shortid")
 // DB set up
 const uri = process.env.MONGO_URI
 // Mongoose connect to database
@@ -50,7 +51,12 @@ app.post("/api/shorturl",async (req,res)=>{
   // res.json(req.body)
   const url = req.body.url
   const urlCode = shortId.generate();
-  // check if the url is valid or not
+  // check if the url is valid or not.
+  if(!validUrl.isWebUri(url)){
+    res.status(401).json({
+      error: 'invalid URL'
+    })
+  }
 })
 
 app.listen(port, function() {
