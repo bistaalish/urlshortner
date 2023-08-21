@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-const URL = require("./models/urlModel")
+const URLModel = require("./models/urlModel")
 var validUrl = require('valid-url');
 const shortId = require("shortid")
 // DB set up
@@ -56,33 +56,6 @@ app.post("/api/shorturl",async (req,res)=>{
     res.status(401).json({
       error: 'invalid URL'
     })
-  } else {
-    try {
-      // check if its already in the database
-      let findOne = await URL.findOne({
-        original_url: url
-      });
-      if (findOne){
-        res.json({
-          original_url: findOne.original_url,
-          short_url: findOne.short_url
-        })
-      } else {
-        // if its not exists yet then create a new one and response with the result
-        findOne = new URL({
-          original_url: url,
-          short_url: urlCode
-        })
-        await findOne.save()
-        res.json({
-          original_url: findOne.original_url,
-          short_url: findOne.short_url
-        })
-      }
-    } catch (err) {
-      console.error(err)
-      res.status(500).json("Server error", err)
-    }
   }
 })
 
