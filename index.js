@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const URLModel = require("./models/urlModel")
+
 // DB set up
 const uri = process.env.MONGO_URI
 // Mongoose connect to database
@@ -16,6 +17,17 @@ mongoose.connect(uri,{
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
+// Logger middleware
+// Middleware for logging requests
+const logMiddleware = (req, res, next) => {
+  // Create a log string containing request method, path, and IP address
+  const logString = `${req.method} ${req.path} - ${req.ip}`;
+  console.log(logString);
+  next(); // Move to the next middleware or route handler
+};
+
+
+app.use(logMiddleware)
 app.use(bodyParser.urlencoded({
   extended: false
 }))
@@ -32,6 +44,10 @@ app.get('/', function(req, res) {
 app.get('/api/hello', function(req, res) {
   res.json({ greeting: 'hello API' });
 });
+
+app.post("/api/shorturl",async (req,res)=>{
+  res.json(req.body)
+})
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
